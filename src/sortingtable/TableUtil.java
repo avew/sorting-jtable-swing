@@ -36,14 +36,9 @@ public class TableUtil {
 
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 
-        int columnIndexForName = columIndex.get(0);
-        sortKeys.add(new RowSorter.SortKey(columnIndexForName, SortOrder.ASCENDING));
-
-        int columnIndexForJob = columIndex.get(1);
-        sortKeys.add(new RowSorter.SortKey(columnIndexForJob, SortOrder.ASCENDING));
-
-        int columnIndexForAge = columIndex.get(2);
-        sortKeys.add(new RowSorter.SortKey(columnIndexForAge, SortOrder.ASCENDING));
+        columIndex.stream().forEach((columIndex1) -> {
+            sortKeys.add(new RowSorter.SortKey(columIndex1, SortOrder.ASCENDING));
+        });
 
         sorter.setSortKeys(sortKeys);
         sorter.sort();
@@ -54,7 +49,6 @@ public class TableUtil {
                 jTable.setValueAt(i + 1, i, indexOfNoColumn);
             }
         });
-        sorter.setComparator(columnIndexForName, (String o1, String o2) -> o1.compareTo(o2));
     }
 
 }
