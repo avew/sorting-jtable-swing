@@ -6,17 +6,10 @@
 package sortingtable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
-import javax.swing.event.RowSorterEvent;
-import javax.swing.event.RowSorterListener;
 import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -32,36 +25,11 @@ public class FormEmployee extends javax.swing.JFrame {
 
         List<Employee> listEmployees = createListEmployees();
         TableModel tableModel = new EmployeeTableModel(listEmployees);
-        tableEmployee.setModel(tableModel);
-//        tableEmployee.setAutoCreateRowSorter(true);
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableEmployee.getModel());
-        tableEmployee.setRowSorter(sorter);
-
-        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-
-        int columnIndexForName = 1;
-        sortKeys.add(new RowSorter.SortKey(columnIndexForName, SortOrder.ASCENDING));
-
-        int columnIndexForJob = 2;
-        sortKeys.add(new RowSorter.SortKey(columnIndexForJob, SortOrder.ASCENDING));
-        int columnIndexForAge = 3;
-        sortKeys.add(new RowSorter.SortKey(columnIndexForAge, SortOrder.ASCENDING));
-
-        sorter.setSortKeys(sortKeys);
-        sorter.sort();
-        sorter.addRowSorterListener((RowSorterEvent e) -> {
-            int indexOfNoColumn = 0;
-            for (int i = 0; i < tableEmployee.getRowCount(); i++) {
-                tableEmployee.setValueAt(i + 1, i, indexOfNoColumn);
-            }
-        });
-        sorter.setComparator(columnIndexForName, new Comparator<String>() {
-
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        List<Integer> columnIndex = new ArrayList<>();
+        columnIndex.add(0); // index for no
+        columnIndex.add(1); // index for name
+        columnIndex.add(2); // index for a jobs
+        TableUtil.sorting(tableEmployee, tableModel, columnIndex);
 
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -149,6 +117,12 @@ public class FormEmployee extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableEmployee;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Set data
+     *
+     * @return
+     */
     private List<Employee> createListEmployees() {
         List<Employee> listEmployees = new ArrayList<>();
         listEmployees.add(new Employee("Asep", "Programmer", 25));
@@ -157,7 +131,6 @@ public class FormEmployee extends javax.swing.JFrame {
         listEmployees.add(new Employee("Hest", "Designer", 13));
         Collections.sort(listEmployees, (Employee o1, Employee o2) -> o1.getName().compareTo(o2.getName()));
         System.out.println(listEmployees.toString());
-        // code to add dummy data here...
         return listEmployees;
     }
 }
