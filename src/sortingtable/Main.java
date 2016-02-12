@@ -5,17 +5,22 @@
  */
 package sortingtable;
 
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author avew
  */
-public class SortingTable {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+         SwingUtilities.invokeLater(() -> {
+             FormEmployee form = new FormEmployee();
+             form.setVisible(true);
+        });
     }
     
 }
